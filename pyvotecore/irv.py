@@ -1,4 +1,4 @@
-from abstract_classes import AbstractSingleWinnerVotingSystem
+from pyvotecore.abstract_classes import AbstractSingleWinnerVotingSystem
 from stv import STV
 
 
