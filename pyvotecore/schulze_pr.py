@@ -95,10 +95,12 @@ class SchulzePR(OrderingVotingSystem, SchulzeHelper):
             return self.conv4json(list(x))
         elif type(x) is dict:
             for k,v in x.items():
-                if type(v) is set:
-                    x[k] = self.conv4json(v)
-                else:
-                    x[k] = v
+                 x[k] = self.conv4json(v)
+            return x
+        elif type(x) is list:
+            index = 0
+            for i in range(len(x)):
+                 x[i] = self.conv4json(x[i])
             return x
         else:
             return x
@@ -107,4 +109,3 @@ class SchulzePR(OrderingVotingSystem, SchulzeHelper):
         data = self.as_dict()
         data_json = self.conv4json(data)
         return json.dumps(data_json);
-
