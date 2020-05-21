@@ -15,6 +15,7 @@
 
 # This class implements the Schulze Proportional Ranking Method as defined
 # in schulze2.pdf
+import json
 from pyvotecore.schulze_helper import SchulzeHelper
 from pyvotecore.abstract_classes import OrderingVotingSystem
 from pygraph.classes.digraph import digraph
@@ -88,3 +89,22 @@ class SchulzePR(OrderingVotingSystem, SchulzeHelper):
         data = super(SchulzePR, self).as_dict()
         data["rounds"] = self.rounds
         return data
+
+    def conv4json(self, x):
+        if type(x) is set:
+            return self.conv4json(list(x))
+        elif type(x) is dict:
+            for k,v in x.items():
+                if type(v) is set:
+                    x[k] = self.conv4json(v)
+                else:
+                    x[k] = v
+            return x
+        else:
+            return x
+
+    def as_json(self):
+        data = self.as_dict()
+        data_json = self.conv4json(data)
+        return json.dumps(data_json);
+
