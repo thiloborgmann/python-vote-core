@@ -18,6 +18,7 @@ from pyvotecore.abstract_classes import MultipleWinnerVotingSystem
 from pyvotecore.schulze_helper import SchulzeHelper
 from pygraph.classes.digraph import digraph
 import itertools
+import json
 
 
 class SchulzeSTV(MultipleWinnerVotingSystem, SchulzeHelper):
@@ -64,3 +65,23 @@ class SchulzeSTV(MultipleWinnerVotingSystem, SchulzeHelper):
         if hasattr(self, 'actions'):
             data['actions'] = self.actions
         return data
+
+    def conv4json(self, x):
+        if type(x) is set:
+            return self.conv4json(list(x))
+        elif type(x) is dict:
+            for k,v in x.items():
+                 x[k] = self.conv4json(v)
+            return x
+        elif type(x) is list:
+            index = 0
+            for i in range(len(x)):
+                 x[i] = self.conv4json(x[i])
+            return x
+        else:
+            return x
+
+    def as_json(self):
+        data = self.as_dict()
+        data_json = self.conv4json(data)
+        return json.dumps(data_json)
