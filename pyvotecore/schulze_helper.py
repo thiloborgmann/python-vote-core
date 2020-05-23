@@ -112,7 +112,8 @@ class SchulzeHelper(CondorcetHelper):
             m = max(pattern.count(PREFERRED_SAME) for pattern in profile)
             if m == 0:
                 break
-            for pattern in profile.keys():
+            #for pattern in profile.keys():
+            for pattern in list(profile):
                 if pattern.count(PREFERRED_SAME) == m:
                     self.proportional_completion_round(pattern, profile)
 
@@ -131,7 +132,8 @@ class SchulzeHelper(CondorcetHelper):
         del profile[completion_pattern]
 
         patterns_to_consider = {}
-        for pattern in profile.keys():
+        #for pattern in profile.keys():
+        for pattern in list(profile):
             append = False
             append_target = []
             for i in range(len(completion_pattern)):
@@ -154,7 +156,8 @@ class SchulzeHelper(CondorcetHelper):
                 denominator += profile[pattern]
 
         # Reweight the remaining items
-        for pattern in patterns_to_consider.keys():
+        #for pattern in patterns_to_consider.keys():
+        for pattern in list(patterns_to_consider):
             if denominator == 0:
                 profile[pattern] += completion_pattern_weight / len(patterns_to_consider)
             else:
